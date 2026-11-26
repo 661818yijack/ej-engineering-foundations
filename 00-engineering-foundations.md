@@ -15,15 +15,16 @@ references:
 - engineering.foundation.evidence-driven-evaluation
 - engineering.foundation.risk-based-prioritization
 - engineering.foundation.sufficient-quality
+- engineering.foundation.composition-before-construction
 ---
 # Engineering Foundational Principles
 
-Version 0.1 — discussion baseline; pending formal adoption.
+Version 0.2 — discussion baseline; adds F07 (composition before construction).
 
 ## Purpose
 These principles guide human engineers and AI agents across research, design, planning, implementation, testing, review, orchestration and lifecycle management. They are intentionally independent of MAESTRO Lite, RAIL, a particular model or a particular programming language. The objective is valuable engineering outcomes with appropriate assurance, not maximizing engineering activity.
 
-## The six principles
+## The seven principles
 
 | ID | Principle | Authoritative draft |
 | --- | --- | --- |
@@ -33,13 +34,14 @@ These principles guide human engineers and AI agents across research, design, pl
 | F04 | Evidence-driven evaluation | [04-evidence-driven-evaluation.md](04-evidence-driven-evaluation.md) |
 | F05 | Risk-based prioritization | [05-risk-based-prioritization.md](05-risk-based-prioritization.md) |
 | F06 | Sufficient quality over maximum quality | [06-sufficient-quality.md](06-sufficient-quality.md) |
+| F07 | Composition before construction | [07-composition-before-construction.md](07-composition-before-construction.md) |
 
 ## How they work together
 
 ```mermaid
 flowchart TD
     A[Identify actual objective and authority] --> B[Preserve relevant context]
-    B --> C[Select simplest suitable method]
+    B --> C[Select simplest suitable method; reuse or compose first]
     C --> D[Execute within constraints]
     D --> E[Verify actual achievements and defects]
     E --> F{Required assurance established?}
@@ -58,7 +60,7 @@ Mandatory constraints apply throughout. The diagram is conceptual; a blocked or 
 | Component | Application |
 | --- | --- |
 | Methodology templates | Maintain the objective, use appropriate session arrangements and select task-specific assurance |
-| MAESTRO Lite | Coordinate authorized task boundaries and evidence, without micromanaging every action |
+| MAESTRO Lite | Compose existing capabilities; coordinate authorized task boundaries and evidence, without micromanaging every action |
 | RAIL | Enforce critical resource boundaries, preserve work and maintain authoritative state |
 | Evaluation | Report demonstrated achievements, localized defects and uncertainty; select checks proportionately |
 | Human owner | Authorize scope and resolve significant trade-offs; decide policy and exceptions where needed |
@@ -71,7 +73,7 @@ The P1–P4 descriptions, objective precedence and stopping policy are proposed 
 
 ## Evidence and research foundations
 
-The six principles synthesize our discussion and the supplied historical incident catalog (598 records, 479 reconciled primary labels and 119 disputed labels). The dataset is failure-only, clustered by project/source, and not a controlled benchmark. Incident IDs in individual principles refer to the supplied catalogs; original primary artifacts have not been independently inspected here. The catalog is not embedded or duplicated in this package.
+The original six principles synthesize our discussion and the supplied historical incident catalog (598 records, 479 reconciled primary labels and 119 disputed labels). The dataset is failure-only, clustered by project/source, and not a controlled benchmark. Incident IDs in individual principles refer to the supplied catalogs; original primary artifacts have not been independently inspected here. The catalog is not embedded or duplicated in this package. F07 records a subsequent integration-first engineering decision; it is not a new quantitative inference from that dataset.
 
 Selected background reading from our earlier research:
 
