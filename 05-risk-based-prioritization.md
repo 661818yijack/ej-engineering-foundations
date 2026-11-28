@@ -14,41 +14,39 @@ references:
 ---
 # F05 — Risk-based prioritization
 
-Version 0.1 — draft principle. Part of the [foundations catalog](00-engineering-foundations.md).
+Version 0.3. Part of the [foundations catalog](00-engineering-foundations.md).
 
 ## Principle
-Spend engineering effort first on credible failures with meaningful consequences and worthwhile opportunities for risk reduction. Do not maximize defect count, test count, process depth or assurance without considering value.
 
-## Why
-Engineering effort is finite. Every additional review, hook, control and test has development, execution, maintenance and opportunity costs. Reducing a frequent consequential failure is generally more valuable than pursuing a speculative, negligible edge case at great expense.
+Choose engineering work by the consequences it can prevent or the value it can deliver, using available evidence and the full cost of intervention.
 
-## Apply it
-Assess the intended environment, likely exposure, consequences, existing safeguards, reversibility, uncertainty, mitigation cost and expected effectiveness. Use qualitative categories (low, medium, high, unknown) when data is inadequate. Where justified by data and consistent units, estimate expected loss over a defined time horizon as probability times consequence; compare reduction in expected loss with the full cost of the control over the same horizon. Avoid invented probabilities and false precision.
+**Connection:** 節事 directs finite effort; 持盈 retains necessary protection against credible serious loss.
 
-| Risk scenario | Default treatment for discretionary work |
-| --- | --- |
-| Frequent and consequential | Prioritize; seek simple prevention |
-| Frequent but low impact | Automate cheaply or batch corrections |
-| Rare but severe or irreversible | Investigate credible scenarios; retain appropriate safeguards |
-| Rare and negligible, costly to address | Normally defer with a reason |
-| Unknown likelihood and serious impact | Obtain evidence or apply proportionate conservative protection |
+## Explanation and action
 
-Mandatory safety, security, authorization and agreed acceptance constraints are not discretionary trade-offs. If satisfying them is infeasible, escalate or renegotiate the task; do not silently waive them. A cheap guard may be worthwhile even for uncommon failures. A recurring minor issue may accumulate into material cost.
+1. **F05.1 — State the consequence of doing nothing.** Identify the affected outcome, plausible failure and what would be lost, delayed or repeated. Distinguish the actual need from an assumed solution; preserving source history is different from keeping a machine continuously available.
+2. **F05.2 — Establish recurrence and exposure honestly.** Prefer observed, recurring consequential problems for discretionary improvement. Use existing records or a safe bounded reproduction when it answers a remaining question. Report unknown frequency or incomplete coverage instead of inventing likelihood.
+3. **F05.3 — Compare the least expensive sufficient responses.** Consider current protections, omission, prevention, detection and recovery, including existing tools. A costly prevention mechanism is not automatically better than an adequate recovery path.
+4. **F05.4 — Compare full cost over the same horizon.** Include implementation, model usage, runtime resources, maintenance and opportunity cost. Use probability multiplied by consequence only when the inputs and units are defensible; otherwise state the qualitative consequence, uncertainty and cost directly.
+5. **F05.5 — Preserve required boundaries and credible severe-risk safeguards.** Rarity is not permission to ignore an irreversible or high-consequence failure. Use the least costly adequate safeguard or leave the affected action blocked if its required protection is unavailable. A speculative concern without a credible mechanism is not automatically a new requirement.
+6. **F05.6 — Record material deferral briefly.** For a consequential issue left unresolved, state the reason, who has authority for that decision and a concrete trigger for revisiting it. Existing task notes are sufficient; trivial preferences do not need a separate risk register.
 
-## Decision procedure
-1. Identify the affected objective and credible failure scenario.
-2. Establish consequence and exposure with available evidence; mark unknowns.
-3. Identify existing protections and possible lower-cost alternatives.
-4. Select prevention, detection, recovery, explicit deferral or escalation.
-5. For deferred material risks, record why, who owns the decision, and the trigger for reconsideration. Do not turn every trivial preference into a risk record.
+```mermaid
+flowchart TD
+    A["Identify consequence and evidence"] --> B{"Required boundary or credible severe loss?"}
+    B -->|Yes| C["Establish adequate protection or block action"]
+    B -->|No| D{"Benefit justifies full cost?"}
+    D -->|Yes| E["Choose the smallest sufficient response"]
+    D -->|No| F["Keep current approach or defer"]
+    E --> G["Verify the claimed improvement"]
+    F --> H["Record a material revisit trigger"]
+```
 
-## Do not confuse this with
-- Ignoring severe risks merely because they are rare.
-- Treating historical incident counts as probabilities without exposure denominators.
-- Automatically prioritizing P1–P4 without considering likelihood, cumulative effects and cost.
-- Creating a full risk-management process for every one-line change.
+## Example: recovery before infrastructure
 
-## Evidence and review
-Historical examples: MA147 (51 agents launched in one review), MA153 (10.8 million tokens and 10.6 hours on harness work), D11 (test data reached a real store). These observations motivate proportionality but do not quantify mitigation effectiveness. Source inspiration: ISTQB risk-based testing and NIST SSDF risk-based adoption.
+If the need is to recover committed source after losing a workstation, a verified copy in a separate Git remote may cover that need. It does not preserve uncommitted work, ignored files, unrelated data or machine availability. First identify what actually needs recovery; add protection only for the remaining requirement. This example does not mandate Git or assert that it replaces every backup system.
 
-Review question: what risk reduction does the proposed work buy, and is there a cheaper sufficient alternative?
+**Review question:** what useful consequence does this intervention change, and is there a cheaper sufficient response?
+
+**Basis:** [F05 traceability](TRACEABILITY.md#f05).
+

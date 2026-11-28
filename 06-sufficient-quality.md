@@ -12,44 +12,48 @@ references:
 - engineering.foundation.risk-based-prioritization
 - engineering.foundation.deterministic-first
 ---
-# F06 — Sufficient quality over maximum quality
+# F06 — Sufficient quality
 
-Version 0.1 — draft principle. Part of the [foundations catalog](00-engineering-foundations.md).
+Version 0.3. Part of the [foundations catalog](00-engineering-foundations.md).
 
 ## Principle
-Satisfy the primary objective and applicable mandatory assurance, then stop when further discretionary engineering is not worthwhile. Prefer explicit objective precedence and sufficient thresholds to asking the model to maximize every quality dimension at once.
 
-## Objective hierarchy
-Apply the following order. Lower priorities cannot silently override higher ones.
+Complete the agreed outcome with its required assurance. Stop discretionary work when its expected benefit no longer justifies its cost.
 
-| Order | Objective | Treatment |
+**Connection:** 節事 provides the stopping rule; 持盈 prevents that rule from discarding required guarantees.
+
+## Explanation and action
+
+1. **F06.1 — Reuse or establish the completion criteria.** Identify the requested result, required constraints and evidence needed for acceptance. Separate required criteria, criteria triggered by stated conditions, and optional improvements. Use the existing task context when it already supplies these answers.
+2. **F06.2 — Apply the shared precedence.** Follow the [index decision order](00-engineering-foundations.md#resolve-ambiguity-and-conflict). Constraints, outcome and required assurance must all hold. If they cannot be satisfied together, report the conflict and pause the affected action instead of silently weakening one.
+3. **F06.3 — Match effort to the promised scope.** A disposable experiment needs evidence for its feasibility claim; an operation affecting valuable data needs its applicable protections even when called a prototype. Do not add production qualification to a small task without a requirement or concrete risk.
+4. **F06.4 — Bound discretionary review.** Use the review count or effort limit specified for the task. Before additional work, identify the unresolved criterion or consequential risk it would address. Optional preferences are non-blocking; a reviewer must name a criterion and evidence for a claimed defect.
+5. **F06.5 — Correct the affected part.** Preserve valid work, repair confirmed defects and recheck affected criteria and interactions. Do not restart every phase or add another broad review merely because an earlier review found something.
+6. **F06.6 — Report the actual completion state.** Use the states below. A finished review budget cannot satisfy missing criteria. Once the task is complete, deliver it and stop; record only residual uncertainty or deferred work that matters to the user's decision.
+
+## Completion states
+
+| State | Condition | Action |
 | --- | --- | --- |
-| 1 | Mandatory constraints | Respect authority, scope and essential safety invariants |
-| 2 | Primary objective | Deliver the actual requested result |
-| 3 | Required assurance | Demonstrate the task-specific acceptance criteria |
-| 4 | Additional risk reduction | Address credible consequential risks proportionately |
-| 5 | Optional optimization | Only when expected benefit justifies cost and authorization allows |
+| **Complete** | The requested outcome and all applicable required criteria have supporting evidence; no blocking issue remains. | Deliver the result and material limitations. |
+| **Incomplete** | Required work, a correction or required evidence is still missing, and authorized feasible work can continue within the task's limits. | Continue that targeted work. |
+| **Blocked** | A required condition cannot be established because of conflicting instructions, unavailable access, missing authority, unsafe conditions or an exhausted applicable limit. | Preserve the work and state the specific blocker and needed decision or input. |
 
-This is a proposed lexicographic/satisficing-inspired decision policy, not a claim that all engineering decisions can be reduced to a strict mathematical optimization problem. When mandatory constraints conflict with the objective, preserve the constraints and ask for a decision rather than silently changing the goal.
+Deliberately deferred optional work does not make a completed task incomplete. Removing a required criterion changes the agreement and requires authority to make that change; labeling it optional is not a substitute.
 
-## Apply it
-- Establish the intended task and applicable assurance before evaluation. Separate mandatory, conditional and optional criteria. Use selected ISTQB testing levels and NIST SSDF practices as a menu, not a universal checklist.
-- A PoC should demonstrate feasibility; a production feature needs stronger assurance; an operation affecting canonical source or valuable data needs protections even if it is a prototype.
-- Review only the promised scope. A genuine defect must have evidence and an applicable criterion or credible material consequence. Label optional improvements as non-blocking. A newly discovered serious risk can be surfaced separately for authorized handling.
-- Preserve correct work. Correct the affected units and rerun the relevant checks; do not automatically restart the full methodology or open another broad review round.
-- Budget discretionary review effort. Compare the incremental expected value with time, tokens, maintenance burden and delayed delivery. Introduce extra reviewers or controls only when justified.
+```mermaid
+flowchart TD
+    A["Evaluate outcome and required criteria"] --> B{"All required criteria supported?"}
+    B -->|Yes| C["Complete: deliver and stop"]
+    B -->|No| D{"Targeted work authorized, feasible and within limits?"}
+    D -->|Yes| E["Incomplete: correct or gather missing evidence"]
+    D -->|No| F["Blocked: preserve work and report the blocker"]
+    E --> A
+```
 
-## Stop rule
-The task is eligible for closure when the primary objective and required criteria have evidence, required authorization and integrity checks are satisfied, and no unresolved blocking issue remains under the approved policy. Disclose residual uncertainty and deferred defects proportionately. If mandatory assurance is missing, report the task as incomplete or inconclusive; do not call it accepted merely because the review budget ran out. If discretionary work has insufficient expected value, stop it rather than expanding the scope.
+The loop ends at the task's applicable limits. Missing required evidence remains visible when work stops.
 
-## Examples
-| Task | Sufficient achievement | Unnecessary default |
-| --- | --- | --- |
-| Disposable PoC | Reproducible demonstration in intended safe test scope | Full production qualification |
-| Small CLI | Required behavior, relevant invalid-input cases and data safety | Distributed-scale optimization |
-| RAIL cleanup capability | Evidence for safe preservation, authorized deletion and recovery | Unrelated architectural redesign |
+**Review question:** which required criterion remains unmet, or what concrete benefit justifies more work?
 
-## Evidence and review
-Historical examples: MA22 (heavy process for one-line changes), MA01 (repeated acceptance findings outside a stable scope), M14 (22 rounds on an unreachable test). These examples establish a reason to investigate stopping policies, not optimal numeric thresholds.
+**Basis:** [F06 traceability](TRACEABILITY.md#f06).
 
-Review question: if the task is already sufficiently demonstrated, what concrete value would another iteration deliver?

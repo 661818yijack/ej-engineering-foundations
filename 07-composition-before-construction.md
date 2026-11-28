@@ -16,66 +16,44 @@ references:
 ---
 # F07 — Composition before construction
 
-Version 0.2 — draft principle. Part of the [foundations catalog](00-engineering-foundations.md).
+Version 0.3. Part of the [foundations catalog](00-engineering-foundations.md).
 
 ## Principle
 
-Deliver the required capability by reusing and composing existing, proven solutions wherever sufficient. Introduce custom implementation only when demonstrated limitations justify its engineering and lifetime maintenance cost.
+Use existing capabilities when they sufficiently meet the need. Compose, adapt or extend them when that is worthwhile; construct new mechanisms for justified remaining gaps.
 
-Make the feature work first; ownership of the underlying implementation is a separate decision.
+**Connection:** 守時 considers current capabilities; 節事 compares total effort; 持盈 preserves the behavior and guarantees the result must retain.
 
-## Why
+## Explanation and action
 
-System integration is engineering. Mature operating systems, command-line tools, databases, infrastructure services and execution environments already implement many difficult mechanisms. Their value includes established interfaces, failure behavior, security updates, operational experience and maintained implementations, not merely the algorithms they contain.
+1. **F07.1 — Begin with the outcome.** Identify the required behavior and operating constraints before choosing a product, algorithm or language. Group interacting requirements for design while keeping each required behavior traceable.
+2. **F07.2 — Inspect what already exists.** Consider installed tools, operating-system facilities, maintained projects and supported interfaces. Reuse directly, compose, configure, adapt or extend where sufficient. This is a preference for discovery, not a mandatory sequence or fixed number of candidates.
+3. **F07.3 — Compare the actual ownership cost.** Assess the relevant capability, compatibility, authority boundaries, licensing obligations, dependency maintenance, resource use and upgrade path. Do not add a dependency solely to reduce line count or reject useful custom work solely because alternatives exist.
+4. **F07.4 — Define the necessary integration boundary.** State inputs, outputs, errors and ownership where components interact; include cancellation, state, recovery or enforcement responsibilities when the requirement depends on them. Individually reliable tools do not prove a reliable composition.
+5. **F07.5 — Verify the claimed composition.** Use the real components in a safe, bounded check of required behavior and important interface failures. Distinguish a documentation claim, a feasibility demonstration and required acceptance evidence. Reuse existing valid evidence when it covers the actual composition.
+6. **F07.6 — Build the justified gap and revisit it when conditions change.** Write only the needed glue or new mechanism, choosing the language for the task. Replace or retire it when evidence shows a cheaper sufficient option, preserving required behavior and applicable recovery needs.
 
-Using a working tool directly can be preferable to reimplementing its algorithm or even embedding a library. Integration still requires engineering judgment: individually reliable components do not automatically make a reliable composition.
+```mermaid
+flowchart TD
+    A["Required outcome and constraints"] --> B{"Existing capability sufficient?"}
+    B -->|Yes| C["Reuse it"]
+    B -->|No| D{"Composition or adaptation sufficient?"}
+    D -->|Yes| E["Implement the needed integration"]
+    D -->|No| F{"Remaining gap worth constructing?"}
+    F -->|Yes| G["Build the justified mechanism"]
+    F -->|No| H["Keep current approach or report the unmet need"]
+    C --> V["Verify required behavior"]
+    E --> V
+    G --> V
+```
 
-F01 concerns whether a task needs intelligence or a deterministic mechanism. F07 concerns whether the required mechanism should be borrowed, composed, adapted, extended or constructed. F05 and F06 determine how much engineering effort is worthwhile; F04 requires evidence that the chosen composition actually works.
+## Example: a small tool can be the sufficient answer
 
-## Apply it
+EJ reported composing existing Linux tools in Rust to make their inputs and outputs more suitable for coding agents, reducing prompt and return lengths. This is a reported experience, not an independently measured savings claim. It illustrates why this principle permits useful custom integration: the comparison is the total cost of meeting the need, including model usage and maintenance.
 
-Use the following investigation order as a preference, not a mandatory five-stage process. Stop once a suitable solution is established.
+Finding a reference can change the chosen approach. It does not require adopting the reference's entire architecture, and it does not automatically mean abandoning the project.
 
-| Approach | Meaning |
-| --- | --- |
-| Reuse | Use an existing working capability directly. |
-| Compose | Connect existing capabilities using their supported interfaces. |
-| Configure or adapt | Tailor configuration or introduce only the necessary translation or integration logic. |
-| Extend | Add a demonstrated missing capability to an existing solution where permitted and maintainable. |
-| Develop | Construct a new implementation only for a justified remaining gap. |
+**Review question:** which required capability remains missing, and does owning its implementation justify the full cost?
 
-1. Start from the required outcome and operating constraints. Group related requirements for design when their interfaces, state or failure behavior interact; keep requirements individually traceable and verifiable.
-2. Investigate existing products, commands, runtimes, protocols, services and maintained implementations before selecting a new algorithm. Include what is already installed or available. Do not force a particular number of candidates.
-3. Compare feasible compositions by their actual guarantees, compatibility, authority model, dependency and licensing obligations, operational burden, upgrade path and total lifecycle cost.
-4. Define the integration boundary: input and output contracts, identity, configuration, state ownership, error propagation, cancellation, recovery and responsibility for enforcement as applicable. Do not assume that two good components compose safely.
-5. Demonstrate the required capability using real components in a proportionate safe proof of concept. Test important interface failures and interactions as well as normal behavior. Distinguish measured behavior from documentation and assumptions.
-6. Write custom glue only for an identified gap. Choose configuration, shell, Python, Rust or another suitable mechanism according to the actual need, not a mandated language or fashionable abstraction.
-7. If experience later establishes a worthwhile limitation, improve or replace the dependency without unnecessarily changing the surrounding contract. Reassess trade-offs when the environment changes.
+**Basis:** [F07 traceability](TRACEABILITY.md#f07).
 
-## Examples
-
-| Required capability | Initial integration candidate | Avoid by default |
-| --- | --- | --- |
-| Versioned source and history | Git | A custom version-control system |
-| Transactional local records | SQLite, when suitable | A new database or transaction engine |
-| Process resource limits | Existing OS resource controls | A replacement operating-system scheduler |
-| Tool execution isolation | Existing permissions and sandbox mechanisms | A custom security boundary without justification |
-| File discovery and search | Existing commands and libraries | Rewriting basic utilities |
-| Flexible intelligent work | Model and tool interfaces | Encoding every reasoning step into fixed software |
-
-Examples illustrate the selection method; they do not mandate particular products or establish their suitability in every environment.
-
-## Do not confuse this with
-
-- Blindly accepting upstream claims or assuming that a tool covers every requirement.
-- Bypassing authorization, license obligations, security controls or necessary safety boundaries.
-- Adding dependencies merely to reduce line count. Configuration, adapters and dependency maintenance have costs too.
-- Treating an integration demonstration as production qualification.
-- Refusing custom development even when existing solutions are demonstrably unsuitable.
-- Copying an entire architecture when a small supported capability suffices.
-
-## Evidence and review
-
-This principle expresses an integration and delivery engineering decision: use established capabilities first and validate their composition against real requirements. No universal claim of lower cost or better performance is made. Relevant background includes the [Unix philosophy](https://www.faqs.org/docs/artu/ch01s06.html), and documented interfaces such as [Git](https://git-scm.com/docs), [SQLite](https://sqlite.org/docs.html) and [systemd](https://www.freedesktop.org/software/systemd/man/latest/). These are examples and reference starting points, not a new literature review.
-
-Review question: what required capability is still missing after using the smallest suitable composition, and does owning a custom implementation create enough value to justify its full cost?

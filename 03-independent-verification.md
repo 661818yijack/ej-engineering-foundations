@@ -14,37 +14,35 @@ references:
 ---
 # F03 — Independent verification
 
-Version 0.1 — draft principle. Part of the [foundations catalog](00-engineering-foundations.md).
+Version 0.3. Part of the [foundations catalog](00-engineering-foundations.md).
 
 ## Principle
-Separate the production of a result from the evidence used to judge it whenever shared assumptions or consequential defects create meaningful risk. Design acceptance tests from the authorized specification, not from the implementation's internal logic.
 
-## Why
-A builder and its tests can share the same misunderstanding. A green test suite can check copied formulas, fake implementations, empty datasets or code paths that never execute. Independence reduces some correlated errors, but does not by itself establish test adequacy.
+Judge results against the authorized requirement and actual behavior. Introduce independent test authorship or verification when shared assumptions or consequential defects make it necessary.
 
-## Apply it
-1. Establish the task's expected behavior, boundaries and applicable assurance before judging the candidate.
-2. For consequential acceptance testing, provide the test author with the approved design, requirements and public interfaces. Exclude the builder's implementation and conversation during independent test authoring where practical and required.
-3. Freeze the acceptance suite or record its exact version. Changes require traceable justification and revalidation, not edits solely to turn red into green.
-4. Run the suite against the exact candidate in a suitable isolated environment. Collect the actual test outcomes, execution scope and revision identity.
-5. Use targeted negative controls, known-good controls, mutation or fault injection when a guarantee's test adequacy matters. Check the real path, not a stand-in.
-6. Recheck affected guarantees after corrections. Add white-box tests and reviews where useful; they complement rather than replace independent acceptance tests.
+**Connection:** 持盈 protects demonstrated guarantees; 節事 keeps verification proportionate to the decision.
 
-| Assurance need | Suitable response |
+## Explanation and action
+
+1. **F03.1 — Establish the criterion before the verdict.** Use the accepted behavior, boundaries and required assurance to decide what success means. Deriving expected results only from the candidate's implementation can repeat its mistake.
+2. **F03.2 — Match independence to the need.** A direct check may suffice for a small disposable change. When the task requires independent acceptance testing, provide the specification and public interfaces while excluding the builder's implementation and discussion during test authoring. If that access separation cannot be achieved, disclose the limitation; do not claim independence.
+3. **F03.3 — Identify the acceptance suite.** Freeze or record the exact suite version. Change an expectation only for a traceable requirement or oracle correction, and revalidate the affected tests. A failing candidate alone is not a reason to weaken its test.
+4. **F03.4 — Exercise the actual candidate.** Record the candidate, relevant environment, check version and actual outcomes. Ensure the test reaches the promised path; a stand-in, empty dataset or unexecuted job cannot establish that path's behavior.
+5. **F03.5 — Check the verifier when its adequacy is in question.** Use a targeted known-correct or known-defective case to establish whether a check can distinguish the required behavior. Use mutation or fault injection only when justified and safely bounded; never recreate damaging conditions on the working machine.
+6. **F03.6 — Recheck affected guarantees.** After a correction, run checks for the changed behavior and its relevant interactions. Preserve still-valid evidence, distinguish unrun checks, and report missing required assurance. Broaden verification only for a concrete remaining risk or required gate.
+
+## Selecting verification
+
+| Decision | Evidence to seek |
 | --- | --- |
-| Small disposable experiment | A direct reproducible check may suffice |
-| User-facing feature | Independent acceptance criteria and representative execution |
-| Resource deletion or sensitive state | Enforced boundaries, negative tests and recovery checks |
-| Changed verifier | Targeted calibration against known correct and defective cases |
+| Is this disposable experiment feasible? | A safe direct demonstration of the claimed behavior. |
+| Does this feature meet its accepted interface? | Representative execution against specification-derived criteria. |
+| Does a consequential operation respect its boundary? | Evidence for that boundary, relevant negative cases and required recovery behavior. |
+| Can this changed verifier detect the defect? | A targeted control with a known expected outcome. |
 
-## Do not confuse this with
-- Requiring several LLM reviewers for every change.
-- Insisting on different model families as a universal rule; measure correlated errors where independence matters.
-- Treating model agreement as truth.
-- Running broad mutation suites on every trivial edit.
-- Declaring a suite adequate merely because all tests pass.
+Different model families and more reviewers are options, not universal requirements. Agreement between models does not establish correctness. A documentation review does not measure how agents will behave after reading the document.
 
-## Evidence and review
-Historical examples: M6 (20 tests green without target execution), M7 (copied formula), J5 (46 green tests while jobs built nothing), MA19 (planted defect survived frozen tests). Selected source foundations: ISTQB CTFL testing levels and techniques; Barr et al., The Oracle Problem in Software Testing.
+**Review question:** could this check pass while the guarantee it claims to verify is broken?
 
-Review question: could the check still pass if the guarantee it claims to verify were deliberately broken?
+**Basis:** [F03 traceability](TRACEABILITY.md#f03).
+

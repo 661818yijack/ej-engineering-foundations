@@ -14,34 +14,35 @@ references:
 ---
 # F04 — Evidence-driven evaluation
 
-Version 0.1 — draft principle. Part of the [foundations catalog](00-engineering-foundations.md).
+Version 0.3. Part of the [foundations catalog](00-engineering-foundations.md).
 
 ## Principle
-Evaluate the actual outcome, preserving demonstrated achievements, localized defects and uncertainty separately. A deliverable is not a single Boolean value, and a completion claim is not completion evidence.
 
-## Why
-A candidate can contain 98 valid tests and two defective tests. It can demonstrate useful functionality while still lacking integration or security evidence. A single pass/fail label obscures progress; an average percentage obscures critical defects. The acceptance decision is a separate policy applied to the quality profile.
+Evaluate the actual result at the level of the claim or requirement. Report demonstrated achievements, confirmed defects and unknowns separately, with enough evidence to trace each conclusion.
 
-## Apply it
-- Evaluate at the appropriate unit: claim, requirement, test case, behavior, action or artifact section. Record which units were evaluated and which remain unknown.
-- Bind evidence to the intended input, candidate, environment, evaluator/check version and relevant authority. Distinguish observed facts, inferences and missing evidence.
-- Record positive achievements and applicable assurance: feasibility (PoC), implemented capability, component testing, component integration, system/E2E testing, external integration and acceptance. Select security, reliability, performance and recovery assurance according to actual needs; they are not mandatory stages for every task.
-- Record each confirmed defect with location, mistake type, severity, affected criterion and evidence. Distinguish a suspected defect from a confirmed one. Preserve valid work and target the correction.
-- Keep severity and treatment priority separate. Proposed P1–P4 defect levels: P1 critical impact; P2 major impact; P3 limited but real impact; P4 low-impact violation. Optional improvements are not defects. Evidence confidence is separate from severity.
-- Use counts with meaningful denominators and describe what the measurements establish. A passing test count is not a requirements-coverage score. Do not average incompatible dimensions by default.
-- An inconclusive result or an evaluator failure is not automatically a worker defect. Report what is missing and do not blindly retry the entire task.
+**Connection:** 守時 needs relevant evidence; 持盈 preserves valid achievements while directing corrections.
 
-## Illustrative evaluation
-A builder submits 100 tests. Of the 100 independently examined, 98 have correct expectations, one has a P2 wrong expectation and one has a P3 non-discriminating assertion. Three additional required behaviors have no verified coverage. These are separate findings, not 95/100 or a universal quality score. The 98 valid tests should be preserved if still relevant to the corrected revision. Acceptance depends on the required assurance, remaining risk and explicit policy.
+## Explanation and action
 
-## Do not confuse this with
-- Unbounded search for all possible flaws.
-- Treating untested work as proven or automatically wrong.
-- Using P1–P4 as the only input to treatment priority.
-- Applying production assurance to a disposable PoC without a task-specific reason.
-- Blocking on preferences or unapproved criteria.
+1. **F04.1 — Name the evaluated unit.** Identify the behavior, requirement, test, action or artifact section being judged. State what was examined and what was outside the review; a verdict about one part is not a verdict about everything.
+2. **F04.2 — Label the basis of a claim.** Use observed for directly inspected results, reported for another person's account, inferred for reasoning from evidence, and unknown when the necessary evidence is missing. A reported success can inform investigation without becoming an independently measured result.
+3. **F04.3 — Bind evidence to its subject.** Reference the input, candidate or document revision, relevant environment and check or source. Include a reproducible command or procedure when repeatability matters. Link to existing evidence instead of duplicating large logs or creating a new report for every small action.
+4. **F04.4 — Separate findings and acceptance.** Record a confirmed defect against its location, applicable criterion and evidence. Mark a suspected defect as unresolved. Report missing required evidence and optional improvements separately; neither a suggestion nor an evaluator failure automatically proves a worker defect.
+5. **F04.5 — Count what the data supports.** Use event counts when exposure is unknown. Estimate a rate only with a relevant denominator, time window and treatment of duplicates. Keep dimensions separate: passing tests, requirement coverage, unresolved conflicts and review scope are different measurements.
+6. **F04.6 — Preserve valid conclusions with their limits.** Retain achievements still supported after a change and correct the affected claims. Do not present missing evidence as proof of failure, or a limited pass as proof of all quality dimensions. Report uncertainty that changes the decision.
 
-## Evidence and review
-Historical examples: M8 (claimed tests completed while waiting), X15 (reported benchmark value differs from source), MA55 (unstable reviewer verdicts), XB32 (green tests missed bypasses). The supplied mistake corpus is failure-only and cannot establish general success or failure probabilities.
+## Reporting examples
 
-Review question: does the report make clear what is demonstrated, what is defective, what remains uncertain, and how each conclusion was established?
+| Available evidence | Supported statement | Unsupported extension |
+| --- | --- | --- |
+| A failure-only incident collection | These failure examples occurred in the collected records. | The records establish an overall failure rate. |
+| EJ reports lower prompt and return lengths from tool composition | Reported benefit worth considering. | Independently measured token savings of an invented amount. |
+| Every document clause has a source mapping | The mappings cover the stated clause inventory. | The wording is unambiguous for every possible agent. |
+| Targeted tests pass | The tested cases passed on the identified candidate. | All requirements and operational risks are resolved. |
+
+The historical foundation catalog contains incident examples, but this rewrite does not newly verify their primary artifacts or infer quantitative effectiveness from them.
+
+**Review question:** can another reader identify what is known, how it is known, and where the conclusion stops?
+
+**Basis:** [F04 traceability](TRACEABILITY.md#f04).
+
