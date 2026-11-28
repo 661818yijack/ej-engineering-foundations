@@ -33,6 +33,8 @@ Use existing capabilities when they sufficiently meet the need. Compose, adapt o
 5. **F07.5 — Verify the claimed composition.** Use the real components in a safe, bounded check of required behavior and important interface failures. Distinguish a documentation claim, a feasibility demonstration and required acceptance evidence. Reuse existing valid evidence when it covers the actual composition.
 6. **F07.6 — Build the justified gap and revisit it when conditions change.** Write only the needed glue or new mechanism, choosing the language for the task. Replace or retire it when evidence shows a cheaper sufficient option, preserving required behavior and applicable recovery needs.
 
+In the diagram, **sufficient** means meeting the required behavior and constraints at a justified full cost, using the comparison in F07.3. Consider known feasible alternatives; an existing tool's functional coverage alone does not rule out a worthwhile adapter. Stop the comparison once there is enough evidence to choose.
+
 ```mermaid
 flowchart TD
     A["Required outcome and constraints"] --> B{"Existing capability sufficient?"}
@@ -41,7 +43,7 @@ flowchart TD
     D -->|Yes| E["Implement the needed integration"]
     D -->|No| F{"Remaining gap worth constructing?"}
     F -->|Yes| G["Build the justified mechanism"]
-    F -->|No| H["Keep current approach or report the unmet need"]
+    F -->|No| H["Keep current approach and report any unmet requirement using F06"]
     C --> V["Verify required behavior"]
     E --> V
     G --> V

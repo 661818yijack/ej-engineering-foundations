@@ -34,10 +34,12 @@ Use an existing, reliable deterministic mechanism when the operation and its exp
 ```mermaid
 flowchart TD
     Q["Define the property and input"] --> R{"Can the operation be specified?"}
-    R -->|Yes| T["Use a suitable existing mechanism"]
+    R -->|Yes| A{"Suitable mechanism available?"}
+    A -->|Yes| T["Use the mechanism"]
+    A -->|No| G["Use F07 to assess a justified implementation"]
     R -->|No| J["Use judgment to resolve the question"]
     J --> D{"Repeatable rule established?"}
-    D -->|Yes| T
+    D -->|Yes| A
     D -->|No| E["Report reasoning and uncertainty"]
     T --> V["Verify input, oracle and actual result"]
 ```

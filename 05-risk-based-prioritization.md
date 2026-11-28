@@ -34,12 +34,14 @@ Choose engineering work by the consequences it can prevent or the value it can d
 ```mermaid
 flowchart TD
     A["Identify consequence and evidence"] --> B{"Required boundary or credible severe loss?"}
-    B -->|Yes| C["Establish adequate protection or block action"]
+    B -->|Yes| C["Establish and verify protection or block action"]
     B -->|No| D{"Benefit justifies full cost?"}
     D -->|Yes| E["Choose the smallest sufficient response"]
     D -->|No| F["Keep current approach or defer"]
     E --> G["Verify the claimed improvement"]
-    F --> H["Record a material revisit trigger"]
+    F --> H{"Consequential issue left unresolved?"}
+    H -->|Yes| I["Record reason, decision authority and revisit trigger"]
+    H -->|No| J["Finish the decision"]
 ```
 
 ## Example: recovery before infrastructure

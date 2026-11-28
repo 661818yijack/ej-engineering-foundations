@@ -53,6 +53,8 @@ flowchart TD
     E -->|Yes| R["Revise the affected decision"]
     R --> W
     R --> I
+    R --> T
+    R --> H
     E -->|No| F["Report result using F06"]
 ```
 
@@ -113,7 +115,9 @@ Apply the following decision order. Required constraints, the primary outcome an
 | 3. Required evidence | Establish the applicable acceptance criteria against the actual result. Missing required evidence remains missing. |
 | 4. Discretionary effort | Choose additional work by expected benefit and full cost, then stop when it is not worthwhile. |
 
-For a missing fact, first inspect an available source or use a safe, bounded check. For a reversible implementation choice that does not alter the items above, choose a reasonable approach and state an assumption when it affects the result. If a remaining ambiguity or conflict prevents a compliant decision, pause only the affected action, identify the competing interpretations or requirements, and ask the owner for the missing decision. Continue unaffected authorized work.
+For a missing fact, first inspect an available source or use a safe, bounded check. Choose among already-authorized approaches when the choice preserves the intended outcome, scope, required criteria, safety boundaries and agreed cost or resource limits. A fact changing which approach is preferred does not by itself require owner approval. For a reversible implementation choice within those boundaries, choose a reasonable approach and state an assumption when it affects the result.
+
+If a remaining ambiguity or conflict prevents a compliant decision within existing authority, pause only the affected action, identify the competing interpretations or requirements, and ask the owner for the missing decision. Continue unaffected authorized work.
 
 Do not seek approval again for an action already authorized in the task. Do not invent an exception, silently waive a requirement, or turn optional advice into a new gate.
 
