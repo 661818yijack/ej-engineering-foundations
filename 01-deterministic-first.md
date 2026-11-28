@@ -18,7 +18,7 @@ Version 0.3. Part of the [foundations catalog](00-engineering-foundations.md).
 
 ## Principle
 
-Use an existing, reliable deterministic mechanism when the operation and its expected result can be specified. Use AI judgment for interpretation, synthesis and decisions that require it.
+Use a reliable deterministic mechanism when the operation and its expected result can be specified. Prefer an existing implementation when it is sufficient; use F07 to decide whether a missing mechanism is worth constructing. Use AI judgment for interpretation, synthesis and decisions that require it.
 
 **Connection:** 節事 reduces avoidable model work; 持盈 requires the mechanism to check the correct property.
 
